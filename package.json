@@ -1,0 +1,25 @@
+{
+  "name": "@anio-js-foundation/create-remote-worker",
+  "version": "0.0.1",
+  "description": "Create a worker that is controlled remotely by a node process.",
+  "main": "./dist/package.mjs",
+  "author": "Anio Software <info@anio.software>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anio-js-foundation/create-remote-worker.git"
+  },
+  "devDependencies": {
+    "@anio-js-core-foundation/create-async-mutex": "^1.0.1",
+    "@anio-js-core-foundation/create-promise": "^1.0.1",
+    "@anio-js-core-foundation/create-random-identifier": "^1.0.1",
+    "@anio-js-foundation/bundle-package": "^2.1.0",
+    "@anio-js-foundation/master-slave-protocol": "^0.10.0"
+  },
+  "scripts": {
+    "prepare": "./node_modules/.bin/bundle-package ."
+  },
+  "files": [
+    "./dist/package.mjs"
+  ]
+}
