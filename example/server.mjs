@@ -31,3 +31,7 @@ const server = await createServer(0, "/endpoint", {
 })
 
 console.log("server listening on", server.port)
+
+setInterval(() => {
+	console.log("clients connected to the server", server.getClients())
+}, 1000)
