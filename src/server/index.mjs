@@ -42,6 +42,13 @@ export default async function createServer(port, base_url, events = {}) {
 
 	server.listen(port, () => {
 		ready_promise.resolve({
+			getClientById(client_id) {
+				if (!(client_id in instance.clients_object)) {
+					throw new Error(`No client with id '${client_id}'.`)
+				}
+
+				return instance.clients_object[client_id].public_interface
+			},
 			port: server.address().port
 		})
 	})
