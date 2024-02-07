@@ -14,7 +14,7 @@
     "@anio-js-core-foundation/create-promise": "^1.0.1",
     "@anio-js-core-foundation/create-random-identifier": "^1.0.1",
     "@anio-js-foundation/bundle-package": "^2.1.0",
-    "@anio-js-foundation/master-slave-protocol": "^0.10.0"
+    "@anio-js-foundation/master-slave-protocol": "^0.11.0"
   },
   "scripts": {
     "prepare": "./node_modules/.bin/bundle-package ."

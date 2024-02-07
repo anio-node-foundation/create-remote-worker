@@ -54,5 +54,9 @@ export default async function setupClient(endpoint, request_handler) {
 		destroyed = true
 	}
 
+	public_interface.pushMessage = function(...args) {
+		return slave.pushMessage(...args)
+	}
+
 	return public_interface
 }

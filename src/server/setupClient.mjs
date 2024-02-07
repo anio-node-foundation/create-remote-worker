@@ -9,6 +9,7 @@ export default function setupClient(context) {
 	let client_object = {
 		message_queue: [],
 		public_interface: {},
+		slave: null,
 		timeout_timer: null
 	}
 
@@ -21,6 +22,10 @@ export default function setupClient(context) {
 
 		sendRequest(...args) {
 			return client_object.master_interface.sendRequest(...args)
+		},
+
+		getPushedMessages() {
+			return client_object.slave.getPushedMessages()
 		}
 	}
 
@@ -31,7 +36,9 @@ export default function setupClient(context) {
 	instance.clients_object[client_id] = client_object
 
 	// dispatch connected event when slave (client) is ready
-	client_object.master_interface.slaveReady().then(() => {
+	client_object.master_interface.slaveReady().then((slave) => {
+		client_object.slave = slave
+
 		if ("onClientConnected" in instance.options.events) {
 			setTimeout(
 				instance.options.events.onClientConnected, 0,

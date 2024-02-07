@@ -34,4 +34,8 @@ console.log("server listening on", server.port)
 
 setInterval(() => {
 	console.log("clients connected to the server", server.getClients())
+
+	for (const c of server.getClients()) {
+		console.log(server.getClientById(c).getPushedMessages())
+	}
 }, 1000)
