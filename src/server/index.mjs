@@ -5,8 +5,8 @@ import handleRequest from "./handleRequest.mjs"
 export default async function createServer(port, base_url, events = {}) {
 	const ready_promise = createPromise()
 
-	const http = await import("node:http")
-	const path = await import("node:path")
+	const {default: http} = await import("node:http")
+	const {default: path} = await import("node:path")
 
 	const mutex = await createMutex()
 
