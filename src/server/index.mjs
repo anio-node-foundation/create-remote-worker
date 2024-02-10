@@ -37,10 +37,10 @@ export default async function(port, base_url, onHTTPResourceRequest = () => {}) 
 	server.on("connect", client => {
 		const protocol = createRequestResponseProtocol(client, `Server -> Client ${client.id.slice(0, 4)}`)
 
-		instance.connected_clients.set(protocol.connection_id, protocol)
-		instance.client_mapping.set(client.id, protocol)
-
 		protocol.ready().then(() => {
+			instance.connected_clients.set(protocol.connection_id, protocol)
+			instance.client_mapping.set(client.id, protocol)
+
 			instance.dispatchEvent("connect", protocol)
 		})
 	})
