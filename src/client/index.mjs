@@ -4,7 +4,7 @@ import createRequestResponseProtocol from "@anio-js-foundation/request-response-
 export default async function(endpoint, request_handler) {
 	const client = await createClient(endpoint)
 
-	const protocol = createRequestResponseProtocol(client)
+	const protocol = createRequestResponseProtocol(client, `Client ${client.id.slice(0, 7)} -> Server`)
 
 	protocol.requestHandler = request_handler
 
