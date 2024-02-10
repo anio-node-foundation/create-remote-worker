@@ -1,6 +1,6 @@
 {
   "name": "@anio-js-foundation/create-remote-worker",
-  "version": "0.5.5",
+  "version": "0.5.6",
   "description": "Create a worker that is controlled remotely by a node process.",
   "main": "./dist/package.mjs",
   "author": "Anio Software <info@anio.software>",
