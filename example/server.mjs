@@ -15,8 +15,8 @@ const server = await createServer(5555, "/endpoint", (req, res) => {
 	}
 })
 
-server.on("attached", async (client) => {
-	console.log(`client ${client.connection_id} attached.`)
+server.on("connect", async (client) => {
+	console.log(`client ${client.connection_id} connected.`)
 
 	console.log(await client.sendRequest("Hello!"))
 })

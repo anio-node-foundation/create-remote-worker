@@ -22,7 +22,7 @@ export default async function(port, base_url, onHTTPResourceRequest = () => {}) 
 
 	const server = await createServer(port, base_url)
 
-	const event_emitter = eventEmitter(["attached", "disconnect"])
+	const event_emitter = eventEmitter(["connect", "disconnect"])
 
 	const dispatchEvent = event_emitter.install(instance.public_interface)
 
@@ -40,7 +40,7 @@ export default async function(port, base_url, onHTTPResourceRequest = () => {}) 
 		)
 
 		protocol.ready().then(() => {
-			instance.dispatchEvent("attached", protocol)
+			instance.dispatchEvent("connect", protocol)
 		})
 	})
 
