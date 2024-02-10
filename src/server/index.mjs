@@ -5,6 +5,8 @@ import createRequestResponseProtocol from "@anio-js-foundation/request-response-
 export default async function(port, base_url, onHTTPResourceRequest = () => {}) {
 	let instance = {
 		connected_clients: new Map(),
+		client_mapping: new Map(),
+
 		public_interface: {
 			getClients() {
 				return Array.from(instance.connected_clients.keys())
@@ -35,9 +37,8 @@ export default async function(port, base_url, onHTTPResourceRequest = () => {}) 
 	server.on("connect", client => {
 		const protocol = createRequestResponseProtocol(client, client.id)
 
-		instance.connected_clients.set(
-			client.id, protocol
-		)
+		instance.connected_clients.set(protocol.connection_id, protocol)
+		instance.client_mapping.set(client.id, protocol)
 
 		protocol.ready().then(() => {
 			instance.dispatchEvent("connect", protocol)
@@ -45,11 +46,14 @@ export default async function(port, base_url, onHTTPResourceRequest = () => {}) 
 	})
 
 	server.on("disconnect", (client_id) => {
-		const client = instance.connected_clients.get(client_id)
+		const protocol = instance.client_mapping.get(client_id)
 
-		instance.dispatchEvent("disconnect", client.connection_id)
+		instance.dispatchEvent("disconnect", {
+			connection_id: protocol.connection_id
+		})
 
-		instance.connected_clients.delete(client_id)
+		instance.connected_clients.delete(protocol.connection_id)
+		instance.client_mapping.delete(client_id)
 	})
 
 	instance.public_interface.port = server.port

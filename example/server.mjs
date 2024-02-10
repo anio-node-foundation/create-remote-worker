@@ -21,6 +21,10 @@ server.on("connect", async (client) => {
 	console.log(await client.sendRequest("Hello!"))
 })
 
+server.on("disconnect", async (client) => {
+	console.log(`client ${client.connection_id} disconnected.`, client)
+})
+
 console.log("server listening on", `http://localhost:${server.port}/`)
 
 setInterval(async () => {
