@@ -13,7 +13,7 @@
     "@anio-js-core-foundation/simple-event-emitter": "^0.3.0",
     "@anio-js-foundation/bundle-package": "^3.1.0",
     "@anio-js-foundation/http-socket": "^0.2.0",
-    "@anio-js-foundation/request-response-protocol": "^0.7.0"
+    "@anio-js-foundation/request-response-protocol": "^0.7.1"
   },
   "scripts": {
     "prepare": "./node_modules/.bin/bundle-package ."
