@@ -9,4 +9,6 @@ export default async function(endpoint, request_handler) {
 	protocol.requestHandler = request_handler
 
 	await protocol.ready()
+
+	return protocol
 }
