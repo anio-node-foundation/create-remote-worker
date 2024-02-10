@@ -19,7 +19,6 @@ server.on("attached", async (client) => {
 	console.log(`client ${client.connection_id} attached.`)
 
 	console.log(await client.sendRequest("Hello!"))
-
 })
 
 console.log("server listening on", `http://localhost:${server.port}/`)
