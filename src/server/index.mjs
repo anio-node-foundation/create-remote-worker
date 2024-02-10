@@ -1,60 +1,58 @@
-import createMutex from "@anio-js-core-foundation/create-async-mutex"
-import createPromise from "@anio-js-core-foundation/create-promise"
-import handleRequest from "./handleRequest.mjs"
+import {createServer} from "@anio-js-foundation/http-socket"
+import eventEmitter from "@anio-js-core-foundation/simple-event-emitter"
+import createRequestResponseProtocol from "@anio-js-foundation/request-response-protocol"
 
-export default async function createServer(port, base_url, events = {}) {
-	const ready_promise = createPromise()
-
-	const {default: http} = await import("node:http")
-	const {default: path} = await import("node:path")
-
-	const mutex = await createMutex()
-
+export default async function(port, base_url, onHTTPResourceRequest = () => {}) {
 	let instance = {
-		node_modules: {
-			path
-		},
-
-		options: {
-			events
-		},
-
-		clients_object: {}
-	}
-
-	const server = http.createServer(async (request, response) => {
-		if (request.url.startsWith(base_url)) {
-			const release = await mutex.acquire()
-
-			const context = {instance, request, response}
-
-			await handleRequest(
-				context, request.url.slice(base_url.length)
-			)
-
-			await release()
-		} else if ("onHTTPResourceRequest" in events) {
-			events.onHTTPResourceRequest(request, response)
-		}
-	})
-
-	server.on("error", ready_promise.reject)
-
-	server.listen(port, () => {
-		ready_promise.resolve({
+		connected_clients: new Map(),
+		public_interface: {
 			getClients() {
-				return Object.keys(instance.clients_object)
+				return Array.from(instance.connected_clients.keys())
 			},
+
 			getClientById(client_id) {
-				if (!(client_id in instance.clients_object)) {
-					throw new Error(`No client with id '${client_id}'.`)
+				if (!instance.connected_clients.has(client_id)) {
+					throw new Error(`Unknown client '${client_id}'.`)
 				}
 
-				return instance.clients_object[client_id].public_interface
-			},
-			port: server.address().port
+				return instance.connected_clients.get(client_id)
+			}
+		}
+	}
+
+	const server = await createServer(port, base_url)
+
+	const event_emitter = eventEmitter(["attached", "disconnect"])
+
+	const dispatchEvent = event_emitter.install(instance.public_interface)
+
+	instance.dispatchEvent = dispatchEvent
+
+	server.on("httpRequest", ({request, response}) => {
+		onHTTPResourceRequest(request, response)
+	})
+
+	server.on("connect", client => {
+		const protocol = createRequestResponseProtocol(client, client.id)
+
+		instance.connected_clients.set(
+			client.id, protocol
+		)
+
+		protocol.ready().then(() => {
+			instance.dispatchEvent("attached", protocol)
 		})
 	})
 
-	return await ready_promise.promise
+	server.on("disconnect", (client_id) => {
+		const client = instance.connected_clients.get(client_id)
+
+		instance.dispatchEvent("disconnect", client.connection_id)
+
+		instance.connected_clients.delete(client_id)
+	})
+
+	instance.public_interface.port = server.port
+
+	return instance.public_interface
 }

@@ -1,4 +1,4 @@
-import {setupClient} from "../dist/package.mjs"
+import {createClient} from "../dist/package.mjs"
 
 async function requestHandler(request) {
 	console.log("got request", request)
@@ -6,8 +6,4 @@ async function requestHandler(request) {
 	return "worker received request: " + JSON.stringify(request)
 }
 
-window.client = await setupClient(
-	document.location.origin + "/endpoint/", requestHandler, /* todo */ {
-		poll_interval: 250
-	}
-)
+const client = await createClient(`${document.location.origin}/endpoint`, requestHandler)

@@ -3,5 +3,5 @@ export {
 } from "./server/index.mjs"
 
 export {
-	default as setupClient
+	default as createClient
 } from "./client/index.mjs"

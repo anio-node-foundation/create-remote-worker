@@ -1,41 +1,37 @@
 import {createServer} from "../dist/package.mjs"
 import fs from "node:fs"
 
-const server = await createServer(0, "/endpoint", {
-	/* todo: */
-	client_timeout: 2000,
-
-	onHTTPResourceRequest(req, res) {
-		try {
-			if (req.url.endsWith(".mjs")) {
-				res.setHeader("Content-Type", "text/javascript")
-			}
-
-			res.write(fs.readFileSync("./" + req.url))
-			res.end()
-		} catch {
-			res.write("err")
-			res.end()
+const server = await createServer(5555, "/endpoint", (req, res) => {
+	try {
+		if (req.url.endsWith(".mjs")) {
+			res.setHeader("Content-Type", "text/javascript")
 		}
-	},
 
-	async onClientConnected(client) {
-		console.log("sending request to worker", await client.sendRequest({
-			cmd: "test"
-		}))
-	},
-
-	onClientDisconnected(client_id) {
-		console.log("client disconnected", client_id)
+		res.write(fs.readFileSync("./" + req.url))
+		res.end()
+	} catch {
+		res.write("err")
+		res.end()
 	}
 })
 
-console.log("server listening on", server.port)
+server.on("attached", async (client) => {
+	console.log(`client ${client.connection_id} attached.`)
 
-setInterval(() => {
+	console.log(await client.sendRequest("Hello!"))
+
+})
+
+console.log("server listening on", `http://localhost:${server.port}/`)
+
+setInterval(async () => {
 	console.log("clients connected to the server", server.getClients())
 
-	for (const c of server.getClients()) {
-		console.log(server.getClientById(c).getPushedMessages())
+	for (const id of server.getClients()) {
+		const client = server.getClientById(id)
+
+		console.log(
+			id, await client.sendRequest("ping")
+		)
 	}
 }, 1000)

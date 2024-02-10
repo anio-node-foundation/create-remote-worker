@@ -10,11 +10,10 @@
     "url": "git+https://github.com/anio-js-foundation/create-remote-worker.git"
   },
   "devDependencies": {
-    "@anio-js-core-foundation/create-async-mutex": "^1.0.1",
-    "@anio-js-core-foundation/create-promise": "^1.0.1",
-    "@anio-js-core-foundation/create-random-identifier": "^1.0.1",
+    "@anio-js-core-foundation/simple-event-emitter": "^0.3.0",
     "@anio-js-foundation/bundle-package": "^2.1.0",
-    "@anio-js-foundation/master-slave-protocol": "^0.11.0"
+    "@anio-js-foundation/http-socket": "^0.0.1",
+    "@anio-js-foundation/request-response-protocol": "^0.5.0"
   },
   "scripts": {
     "prepare": "./node_modules/.bin/bundle-package ."
