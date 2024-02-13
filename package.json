@@ -12,7 +12,7 @@
   "devDependencies": {
     "@anio-js-core-foundation/simple-event-emitter": "^0.3.0",
     "@anio-js-foundation/bundle-package": "^3.1.2",
-    "@anio-js-foundation/http-socket": "^0.2.0",
+    "@anio-js-foundation/http-socket": "^0.3.1",
     "@anio-js-foundation/request-response-protocol": "^1.0.0"
   },
   "scripts": {
