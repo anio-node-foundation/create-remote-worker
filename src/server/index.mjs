@@ -46,6 +46,11 @@ export default async function(port, base_url, onHTTPResourceRequest = () => {}) 
 	})
 
 	server.on("disconnect", (client_id) => {
+		// client never got past protocol sync phase
+		if (!instance.client_mapping.has(client_id)) {
+			return
+		}
+
 		const protocol = instance.client_mapping.get(client_id)
 
 		instance.dispatchEvent("disconnect", {
