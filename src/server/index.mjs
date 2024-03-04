@@ -1,5 +1,5 @@
-import {createServer} from "@anio-js-foundation/http-socket"
-import eventEmitter from "@anio-js-core-foundation/simple-event-emitter"
+import {createServer} from "@anio-node-foundation/http-socket"
+import eventEmitter from "@anio-js-foundation/simple-event-emitter"
 import createRequestResponseProtocol from "@anio-js-foundation/request-response-protocol"
 
 export default async function(port, base_url, onHTTPResourceRequest = () => {}) {

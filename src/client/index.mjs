@@ -1,4 +1,4 @@
-import {createClient} from "@anio-js-foundation/http-socket"
+import {createClient} from "@anio-node-foundation/http-socket"
 import createRequestResponseProtocol from "@anio-js-foundation/request-response-protocol"
 
 export default async function(endpoint, request_handler) {
