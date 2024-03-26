@@ -1,4 +1,4 @@
-import {createClient} from "../dist/package.mjs"
+import {createClient} from "../build/package.mjs"
 
 async function requestHandler(request) {
 	console.log("got request", request)

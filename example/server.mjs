@@ -1,4 +1,4 @@
-import {createServer} from "../dist/package.mjs"
+import {createServer} from "../build/package.mjs"
 import fs from "node:fs"
 
 const server = await createServer(5555, "/endpoint", (req, res) => {
